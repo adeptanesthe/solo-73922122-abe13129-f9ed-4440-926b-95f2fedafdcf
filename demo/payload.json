@@ -1,0 +1,46 @@
+{
+  "photos": ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10"],
+  "annotators": ["a1", "a2", "a3", "a4", "a5"],
+  "votes": [
+    {"photo": "p1", "annotator": "a1", "label": 1},
+    {"photo": "p2", "annotator": "a1", "label": 0},
+    {"photo": "p3", "annotator": "a1", "label": 1},
+    {"photo": "p4", "annotator": "a1", "label": 0},
+    {"photo": "p5", "annotator": "a1", "label": 1},
+    {"photo": "p6", "annotator": "a1", "label": 0},
+    {"photo": "p7", "annotator": "a1", "label": 1},
+    {"photo": "p8", "annotator": "a1", "label": 1},
+
+    {"photo": "p1", "annotator": "a2", "label": 1},
+    {"photo": "p2", "annotator": "a2", "label": 1},
+    {"photo": "p3", "annotator": "a2", "label": 1},
+    {"photo": "p4", "annotator": "a2", "label": 0},
+    {"photo": "p5", "annotator": "a2", "label": 1},
+    {"photo": "p6", "annotator": "a2", "label": 1},
+    {"photo": "p7", "annotator": "a2", "label": 0},
+    {"photo": "p8", "annotator": "a2", "label": 1},
+
+    {"photo": "p1", "annotator": "a3", "label": 0},
+    {"photo": "p2", "annotator": "a3", "label": 0},
+    {"photo": "p3", "annotator": "a3", "label": 1},
+    {"photo": "p4", "annotator": "a3", "label": 0},
+    {"photo": "p5", "annotator": "a3", "label": 0},
+    {"photo": "p6", "annotator": "a3", "label": 0},
+    {"photo": "p7", "annotator": "a3", "label": 1},
+    {"photo": "p9", "annotator": "a3", "label": 1},
+
+    {"photo": "p2", "annotator": "a4", "label": 0},
+    {"photo": "p4", "annotator": "a4", "label": 1},
+    {"photo": "p6", "annotator": "a4", "label": 0},
+    {"photo": "p8", "annotator": "a4", "label": 0},
+    {"photo": "p9", "annotator": "a4", "label": 1},
+
+    {"photo": "p10", "annotator": "a5", "label": 1}
+  ],
+  "expert_labels": [
+    {"photo": "p1", "label": 1},
+    {"photo": "p2", "label": 0},
+    {"photo": "p3", "label": 1},
+    {"photo": "p4", "label": 0}
+  ]
+}
