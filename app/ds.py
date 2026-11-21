@@ -150,6 +150,21 @@ def evaluate_photo(target_idx, votes, n_photos, n_annotators, expert_labels):
     return target_votes, usable, fits
 
 
+def fit_groups_excluding_segments(exclude_photos, votes, n_photos,
+                                  n_annotators, expert_labels):
+    """按路段留一：剔除给定照片（整个路段）及其投票后再分组拟合。
+
+    用于换版评估——估计某张照片的有坑概率时，Dawid–Skene 拟合只能使用
+    其他路段的照片、投票与专家标签，避免同路段信息泄漏。下标仍沿用全局
+    下标，调用方无需重编号。返回 {全局标注员下标: (2,2) 混淆矩阵}。
+    """
+    exclude = set(exclude_photos)
+    remaining = [v for v in votes if v.photo_idx not in exclude]
+    remaining_expert = {p: c for p, c in expert_labels.items()
+                        if p not in exclude}
+    return fit_groups(remaining, n_photos, n_annotators, remaining_expert)
+
+
 def pothole_probability(usable_votes, fits):
     """用可用投票计算有坑概率（类别先验各半，混淆矩阵来自留一拟合）。"""
     log0 = float(np.log(CLASS_PRIOR[0]))

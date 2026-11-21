@@ -2,8 +2,9 @@
 import numpy as np
 import pytest
 
-from app.ds import (Vote, connected_groups, evaluate_photo, fit_dawid_skene,
-                    fit_groups, pothole_probability)
+from app.ds import (Vote, connected_groups, evaluate_photo,
+                    fit_dawid_skene, fit_groups,
+                    fit_groups_excluding_segments, pothole_probability)
 
 
 def test_add_one_smoothing_exact():
@@ -120,3 +121,24 @@ def test_pothole_probability_direction_and_value():
     _, usable2, fits2 = evaluate_photo(4, votes2, 5, 2, expert)
     p2 = pothole_probability(usable2, fits2)
     assert p2 == pytest.approx(0.1, abs=1e-9)
+
+
+def test_fit_groups_excluding_segments_removes_whole_segment():
+    # 路段 s1 = {p0, p1, p2}（含一正一负专家标签），s2 = {p3}
+    # 剔除 s1 后没有任何带专家标签的组 → 拟合结果为空
+    votes = [Vote(0, 0, 1), Vote(1, 0, 0), Vote(2, 0, 1), Vote(3, 0, 0)]
+    expert = {0: 1, 1: 0}
+    fits = fit_groups_excluding_segments([0, 1, 2], votes, 4, 1, expert)
+    assert fits == {}
+
+    # 干净构造：组内只有 p0/p1 两张专家照片，a0 两票都投对；
+    # 剔除同路段的 p2（无票照片）不影响拟合 → 误标率=漏标率=1/3
+    clean_votes = [Vote(0, 0, 1), Vote(1, 0, 0)]
+    fits2 = fit_groups_excluding_segments([2], clean_votes, 3, 1, expert)
+    assert set(fits2) == {0}
+    assert fits2[0][0, 1] == pytest.approx(1 / 3)
+    assert fits2[0][1, 0] == pytest.approx(1 / 3)
+
+    # 不剔除任何照片时，p2 的“有坑”票作为未确认照片进入 EM，结果与全量一致
+    fits3 = fit_groups_excluding_segments([], votes, 4, 1, expert)
+    assert fits3[0] == pytest.approx(fit_groups(votes, 4, 1, expert)[0])
